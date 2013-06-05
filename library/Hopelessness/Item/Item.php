@@ -34,11 +34,47 @@ class Item
 	protected $name;
 	
 	/**
+	 * Observers
+	 *
+	 * @var ItemObserver[]
+	 */
+	protected $observers = array();
+	
+	/**
 	 * Type of the item
 	 *
 	 * @var string
 	 */
 	protected $type;
+	
+	/**
+	 * Attach an observer
+	 *
+	 * @param ItemObserver $itemObserver
+	 * @return self
+	 */
+	public function attachObserver(ItemObserver $itemObserver)
+	{
+		$this->observers[] = $itemObserver;
+		return $this;
+	}
+	
+	/**
+	 * Detach an observer
+	 *
+	 * @param ItemObserver $itemObserver
+	 * @return self
+	 */
+	public function detachObserver(ItemObserver $itemObserver)
+	{
+		$key = array_search($itemObserver, $this->observers, true);
+		
+		if ($key !== false) {
+			unset($this->observers[$key]);
+		}
+		
+		return $this;
+	}
 	
 	/**
 	 * Get the equipped status of the item

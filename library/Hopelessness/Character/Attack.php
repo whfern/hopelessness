@@ -8,7 +8,7 @@ namespace Hopelessness\Character;
 /**
  *
  */
-class Attack implements EquipmentObserver, StatusEffectsObserver
+class Attack implements ItemObserver, StatusEffectObserver
 {
 
 	/**
@@ -55,22 +55,22 @@ class Attack implements EquipmentObserver, StatusEffectsObserver
 	}
 	
 	/**
-	 * Update the attack attribute of changes to equipment
+	 * Update the attack attribute of changes to item
 	 *
-	 * @param Equipment $equipment
+	 * @param Item $item
 	 * @return self
 	 */
-	public function updateEquipment(Equipment $equipment)
+	public function updateItem(Item $equipment)
 	{
 	}
 	
 	/**
-	 * Update the attack attribute of changes to status effects
+	 * Update the attack attribute of changes to a status effect
 	 *
-	 * @param StatusEffects $statusEffects
+	 * @param StatusEffect $statusEffect
 	 * @return self
 	 */
-	public function updateStatusEffects(StatusEffects $statusEffects)
+	public function updateStatusEffect(StatusEffect $statusEffect)
 	{
 	}
 

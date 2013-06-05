@@ -16,9 +16,16 @@ class Character
 	/**
 	 * Attack attribtue for the character
 	 *
-	 * @var Attribute
+	 * @var Attack
 	 */
 	protected $attack;
+	
+	/**
+	 * Defense attribute for the character
+	 *
+	 * @var Defense
+	 */
+	protected $defense;
 	
 	/**
 	 * Name for the character
@@ -45,7 +52,7 @@ class Character
 	/**
 	 * Get the attack attribute for the character
 	 *
-	 * @return integer
+	 * @return Attack
 	 */
 	public function getAttack()
 	{
@@ -63,6 +70,21 @@ class Character
 			$this->getEquippedWeapon()->getWeaponDamage()->getLower() * (.5 + ($this->getAttack()->getCurrent() / 50)),
 			$this->getEquippedWeapon()->getWeaponDamage()->getUpper() * (.5 + ($this->getAttack()->getCurrent() / 50))
 		);
+	}
+	
+	/**
+	 * Get the equipped items for the character
+	 *
+	 * @return Item[]
+	 */
+	public function getEquipment()
+	{
+		$criteria = new Criteria();
+		$criteria->where($criteria->expr()->eq('equipped', true));
+		
+		return $this->items
+			->matching($criteria)
+			->toArray();
 	}
 	
 	/**
