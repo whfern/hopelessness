@@ -1,0 +1,13 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/orm": "~2",
+        "silex/silex": "~1",
+        "zendframework/zend-loader": "~2"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "dev-release-2.0",
+        "phpdocumentor/template-responsive-twig": "~1",
+        "phpunit/phpunit": "~3.7"
+    }
+}

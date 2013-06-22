@@ -1,0 +1,1 @@
+PS1="(Hopelessness) $PS1" PATH="`pwd`/vendor/bin:$PATH" bash --norc -i
