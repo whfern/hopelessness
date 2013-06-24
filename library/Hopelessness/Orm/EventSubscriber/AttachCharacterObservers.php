@@ -8,25 +8,23 @@ namespace Hopelessness\Orm\EventSubscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
- 
+
 /**
  *
  */
 class AttachCharacterObservers implements EventSubscriber
 {
 
-	/**
-	 * Get the events for the subscriber
-	 *
-	 * @return array
-	 */
+    /**
+     * {@inheritdoc}
+     */
 	public function getSubscribedEvents()
     {
         return array(
             Events::postLoad,
         );
     }
-	
+
 	/**
 	 * Handle the post load event
 	 *
@@ -37,10 +35,7 @@ class AttachCharacterObservers implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof Character) {
-			foreach ($entity->getItems() as $item) {
-				$item->attachObserver($entity->getAttack());
-				$item->attachObserver($entity->getDefense());
-			}
+            $entity->setupObservers();
         }
     }
 

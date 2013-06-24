@@ -18,6 +18,5 @@ interface ItemObserver
 	 * @return self
 	 */
 	public function updateItem(Item $item);
-	
-|
-	
+
+}

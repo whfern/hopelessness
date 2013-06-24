@@ -26,11 +26,10 @@ class String
 
         $valid = true;
         for ($i = 0; $i < $length; ++$i) {
-            $valid &= (isset($a[$i]) && isset($b[$i]) && $a[$i] == $b[$i]);
+            $valid = $valid && (isset($a[$i]) && isset($b[$i]) && $a[$i] == $b[$i]);
         }
 
         return $valid;
-
     }
 
 }

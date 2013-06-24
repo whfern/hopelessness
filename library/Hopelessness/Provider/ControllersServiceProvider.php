@@ -9,6 +9,7 @@ namespace Hopelessness\Provider;
 
 use Hopelessness\Controller\Homepage as HomepageController;
 use Hopelessness\Controller\User\Add as AddUserController;
+use Hopelessness\Controller\User\Listing as ListUserController;
 use Hopelessness\Controller\User\View as ViewUserController;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -28,7 +29,7 @@ class ControllersServiceProvider implements ServiceProviderInterface
             return new HomepageController();
         };
 
-        $application['add-customer'] = function(Application $application) {
+        $application['add-user'] = function(Application $application) {
             return new AddUserController(
                 $application['orm'],
                 $application['request']->request,
@@ -36,11 +37,14 @@ class ControllersServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $application['view-customer'] = function(Application $application) {
-            return new ViewUserController(
-                $application['users-repository'],
-                $application['request']->attributes->get('uuid')
+        $application['list-users'] = function(Application $application) {
+            return new ListUserController(
+                $application['users-repository']
             );
+        };
+
+        $application['view-user'] = function(Application $application) {
+            return new ViewUserController();
         };
     }
 

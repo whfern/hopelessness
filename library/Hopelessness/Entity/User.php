@@ -7,17 +7,26 @@
 
 namespace Hopelessness\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Hopelessness\String;
 use Hopelessness\HashAlgorithm\HashAlgorithm;
 
 /**
  * User entity
  *
- * @Entity
+ * @Entity(repositoryClass="Hopelessness\Repository\Users")
  * @Table(name="users")
  */
 class User
 {
+
+    /**
+     * Characters that belong to the user
+     *
+     * @OneToMany(targetEntity="Hopelessness\Entity\Character",mappedBy="user")
+     * @var Character[]
+     */
+    protected $characters;
 
     /**
      * The credential for the user
@@ -45,30 +54,57 @@ class User
      */
     protected $identity;
 
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->characters = new ArrayCollection();
+	}
+
+	/**
+	 * Add a character owned by this user
+	 *
+	 * Inverse side of the user / character relationship. Do not use directly.
+	 *
+	 * @param Character $character
+	 * @return self
+	 */
+	public function addCharacter(Character $character)
+	{
+	    if ($this->characters->contains($character)) {
+	    }
+
+	    if ($character->getUser() !== $this) {
+	    }
+
+	    $this->characters[] = $character;
+	    return $this;
+	}
+
     /**
      * Check if the supplied credential matches the credential for the user
      *
      * @param string $credential
+     * @param HashAlgorithm $hashAlgorithm
      * @return boolean
      */
-    public function checkCredential($credential)
+    public function checkCredential($credential, HashAlgorithm $hashAlgorithm)
     {
         return String::constantTimeComparison(
-            crypt($credential, $this->getCredential()),
-            $this->getCredential()
+            $hashAlgorithm->hash($credential),
+            $this->credential
         );
     }
 
     /**
-     * Get the credential for the user
+     * Get the characters that belong to the user
      *
-     * The credential will be returned as a bcrypt hashed string.
-     *
-     * @return string
+     * @return Character[]
      */
-    public function getCredential()
+    public function getCharacters()
     {
-        return $this->credential;
+        return $this->characters;
     }
 
     /**
@@ -92,18 +128,6 @@ class User
     }
 
     /**
-     * Set the identity for the user
-     *
-     * @param string $identity
-     * @return self
-     */
-    public function setIdentity($identity)
-    {
-        $this->identity = $identity;
-        return $this;
-    }
-
-    /**
      * Set the credential for the user
      *
      * @param string $credential
@@ -113,6 +137,18 @@ class User
     public function setCredential($credential, HashAlgorithm $hashAlgorithm)
     {
         $this->credential = $hashAlgorithm->hash($credential);
+        return $this;
+    }
+
+    /**
+     * Set the identity for the user
+     *
+     * @param string $identity
+     * @return self
+     */
+    public function setIdentity($identity)
+    {
+        $this->identity = $identity;
         return $this;
     }
 

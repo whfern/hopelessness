@@ -1,12 +1,19 @@
 <?php
 /**
+ * Office of Hopelessness
  *
+ * @author Justin Hendrickson <justin.hendrickson@gmail.com>
  */
 
 namespace Hopelessness\Character;
 
+use Hopelessness\Item\Item;
+use Hopelessness\Item\ItemObserver;
+use Hopelessness\StatusEffect\StatusEffect;
+use Hopelessness\StatusEffect\StatusEffectObserver;
+
 /**
- *
+ * Attack attribute
  */
 class Attack implements ItemObserver, StatusEffectObserver
 {
@@ -17,7 +24,7 @@ class Attack implements ItemObserver, StatusEffectObserver
 	 * @var integer
 	 */
 	protected $equipmentModifiers = 0;
-	
+
 	/**
 	 * Status effect modifiers
 	 *
@@ -31,7 +38,17 @@ class Attack implements ItemObserver, StatusEffectObserver
 	 * @var itneger
 	 */
 	protected $raw;
-	
+
+	/**
+	 * Constructor
+	 *
+	 * @param integer $raw
+	 */
+	public function __construct($raw)
+	{
+	    $this->raw = $raw;
+    }
+
 	/**
 	 * Get the current attribute value
 	 *
@@ -43,7 +60,7 @@ class Attack implements ItemObserver, StatusEffectObserver
 			$this->getEquipmentModifiers() +
 			$this->getStatusEffectModifiers();
 	}
-	
+
 	/**
 	 * Get the raw attribute value
 	 *
@@ -53,7 +70,7 @@ class Attack implements ItemObserver, StatusEffectObserver
 	{
 		return $this->raw;
 	}
-	
+
 	/**
 	 * Update the attack attribute of changes to item
 	 *
@@ -63,7 +80,7 @@ class Attack implements ItemObserver, StatusEffectObserver
 	public function updateItem(Item $equipment)
 	{
 	}
-	
+
 	/**
 	 * Update the attack attribute of changes to a status effect
 	 *

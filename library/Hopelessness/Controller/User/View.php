@@ -7,57 +7,26 @@
 
 namespace Hopelessness\Controller\User;
 
-use Doctrine\ORM\EntityRepository;
+use Hopelessness\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * Edit customer controller
+ * View customer controller
  */
 class View
 {
 
     /**
-     * Users repository
-     *
-     * @var EntityRepository
-     */
-    protected $entityRepository;
-
-    /**
-     * UUID of the user to view
-     *
-     * @var string
-     */
-    protected $userUuid;
-
-    /**
-     * Constructor
-     *
-     * @param EntityRepository $entityRepository
-     */
-    public function __construct(EntityRepository $entityRepository, $userUuid)
-    {
-        $this->entityRepository = $entityRepository;
-        $this->userUuid         = $userUuid;
-    }
-
-    /**
      * Invoke the controller
      *
-     * @return string
+     * @return JsonResponse
      */
-    public function __invoke()
+    public function __invoke(User $user)
     {
-        $user = $this->entityRepository->find($this->userUuid);
-
-        if (!$user) {
-             throw new HttpException(404, "No user with that UUID exists");
-        }
-
         return new JsonResponse(array(
-            "uuid" => $user->getUuid(),
-            "identity" => $user->getIdentity()
+            'uuid' => $user->getUuid(),
+            'identity' => $user->getIdentity()
         ));
     }
 
