@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * Add user controller
+ * Create user controller
  */
-class Add
+class Create
 {
 
     /**
@@ -71,10 +71,7 @@ class Add
         $this->entityManager
             ->flush();
 
-        return new JsonResponse(array(
-            "uuid" => $user->getUuid(),
-            "identity" => $user->getIdentity()
-        ));
+        return new JsonResponse($user->toArray());
     }
 
 }

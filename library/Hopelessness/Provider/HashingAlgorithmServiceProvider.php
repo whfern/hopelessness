@@ -22,7 +22,7 @@ class HashingAlgorithmServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application['hash'] = function(Application $application) {
+        $application['Hopelessness\\HashAlgorithm\\Bcrypt'] = function(Application $application) {
             return new Bcrypt();
         };
     }

@@ -42,10 +42,7 @@ class Listing
     public function __invoke()
     {
         return new JsonResponse(Traversable::map(function(User $user) {
-            return array(
-                'uuid' => $user->getUuid(),
-                'identity' => $user->getIdentity()
-            );
+            return $user->toArray();
         }, $this->users->findAll()));
     }
 

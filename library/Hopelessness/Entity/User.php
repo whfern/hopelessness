@@ -54,33 +54,33 @@ class User
      */
     protected $identity;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->characters = new ArrayCollection();
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->characters = new ArrayCollection();
+    }
 
-	/**
-	 * Add a character owned by this user
-	 *
-	 * Inverse side of the user / character relationship. Do not use directly.
-	 *
-	 * @param Character $character
-	 * @return self
-	 */
-	public function addCharacter(Character $character)
-	{
-	    if ($this->characters->contains($character)) {
-	    }
+    /**
+     * Add a character owned by this user
+     *
+     * Inverse side of the user / character relationship. Do not use directly.
+     *
+     * @param Character $character
+     * @return self
+     */
+    public function addCharacter(Character $character)
+    {
+        if ($this->characters->contains($character)) {
+        }
 
-	    if ($character->getUser() !== $this) {
-	    }
+        if ($character->getUser() !== $this) {
+        }
 
-	    $this->characters[] = $character;
-	    return $this;
-	}
+        $this->characters[] = $character;
+        return $this;
+    }
 
     /**
      * Check if the supplied credential matches the credential for the user
@@ -95,6 +95,15 @@ class User
             $hashAlgorithm->hash($credential),
             $this->credential
         );
+    }
+
+    /**
+     * Get the credential validator
+     *
+     * @return Validator
+     */
+    public function getCredentialValidator()
+    {
     }
 
     /**
@@ -150,6 +159,19 @@ class User
     {
         $this->identity = $identity;
         return $this;
+    }
+
+    /**
+     * Get an array of the users information
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array(
+            'uuid' => $this->getUuid(),
+            'identity' => $this->getIdentity()
+        );
     }
 
 }

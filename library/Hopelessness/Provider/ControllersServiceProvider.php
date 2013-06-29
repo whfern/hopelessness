@@ -7,10 +7,11 @@
 
 namespace Hopelessness\Provider;
 
-use Hopelessness\Controller\Homepage as HomepageController;
-use Hopelessness\Controller\User\Add as AddUserController;
+use Hopelessness\Controller\User\Create as CreateUserController;
+use Hopelessness\Controller\User\Delete as DeleteUserController;
 use Hopelessness\Controller\User\Listing as ListUserController;
-use Hopelessness\Controller\User\View as ViewUserController;
+use Hopelessness\Controller\User\Read as ReadUserController;
+use Hopelessness\Controller\User\Update as UpdateUserController;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -25,26 +26,36 @@ class ControllersServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application['homepage'] = function(Application $application) {
-            return new HomepageController();
-        };
-
-        $application['add-user'] = function(Application $application) {
-            return new AddUserController(
-                $application['orm'],
+        $application['Hopelessness\\Controller\\User\\Create'] = function(Application $application) {
+            return new CreateUserController(
+                $application['Doctrine\\ORM\\EntityManager'],
                 $application['request']->request,
-                $application['hash']
+                $application['Hopelessness\\HashAlgorithm\\Bcrypt']
             );
         };
 
-        $application['list-users'] = function(Application $application) {
+        $application['Hopelessness\\Controller\\User\\Delete'] = function(Application $application) {
+            return new DeleteUserController(
+                $application['Doctrine\\ORM\\EntityManager']
+            );
+        };
+
+        $application['Hopelessness\\Controller\\User\\List'] = function(Application $application) {
             return new ListUserController(
-                $application['users-repository']
+                $application['Hopelessness\\Repositories\\Users']
             );
         };
 
-        $application['view-user'] = function(Application $application) {
-            return new ViewUserController();
+        $application['Hopelessness\\Controller\\User\\Read'] = function(Application $application) {
+            return new ReadUserController();
+        };
+
+        $application['Hopelessness\\Controller\\User\\Update'] = function(Application $application) {
+            return new UpdateUserController(
+                $application['Doctrine\\ORM\\EntityManager'],
+                $application['request']->request,
+                $application['Hopelessness\\HashAlgorithm\\Bcrypt']
+            );
         };
     }
 

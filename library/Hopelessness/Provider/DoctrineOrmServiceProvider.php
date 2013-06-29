@@ -23,7 +23,7 @@ class DoctrineOrmServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application['orm'] = $application->share(function(Application $application) {
+        $application['Doctrine\\ORM\\EntityManager'] = $application->share(function(Application $application) {
             $configuration = Setup::createAnnotationMetadataConfiguration(
                 array('./library/Hopelessness/Entity'),
                 true

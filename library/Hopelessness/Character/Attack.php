@@ -19,18 +19,18 @@ class Attack implements ItemObserver, StatusEffectObserver
 {
 
 	/**
-	 * Equipment modifiers
+	 * Equipment items
 	 *
-	 * @var integer
+	 * @var Items[]
 	 */
-	protected $equipmentModifiers = 0;
+	protected $equippedItems = array();
 
 	/**
-	 * Status effect modifiers
+	 * Active status modifiers
 	 *
-	 * @var integer
+	 * @var StatusModifier
 	 */
-	protected $statusEffectModifiers = 0;
+    protected $activeStatusModifiers = array();
 
 	/**
 	 * Raw attack value
@@ -62,6 +62,22 @@ class Attack implements ItemObserver, StatusEffectObserver
 	}
 
 	/**
+	 * Get all the modifiers for equipped items for attack
+	 *
+	 * @return integer
+	 */
+	public function getEquipmentModifiers()
+	{
+	    return Traversable::reduce(
+	        function(Item $item, $memo) {
+	            return $memo + $item->getAttackModifier();
+	        },
+	        $this->equippedItems,
+	        0
+        );
+	}
+
+	/**
 	 * Get the raw attribute value
 	 *
 	 * @return integer
@@ -77,8 +93,21 @@ class Attack implements ItemObserver, StatusEffectObserver
 	 * @param Item $item
 	 * @return self
 	 */
-	public function updateItem(Item $equipment)
+	public function updateItem(Item $item)
 	{
+        $key = array_search($item, $this->equippedItems, true);
+
+	    if ($item->isEquipped()) {
+	        if ($key === false) {
+	            $this->equippedItems[] = $item;
+	        }
+        } else {
+            if ($key !== false) {
+                unset($this->equippedItems[$key]);
+            }
+        }
+
+        return $this;
 	}
 
 	/**

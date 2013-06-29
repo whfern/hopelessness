@@ -15,4 +15,33 @@ use PHPUnit_Framework_TestCase as TestCase;
  */
 class AttackTest extends TestCase
 {
+
+    /**
+     * Attack attribute
+     *
+     * @var Attack
+     */
+    protected $attack;
+
+    /**
+     * Setup the test case
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->attack = new Attack(8);
+    }
+
+    /**
+     * Ensure the raw attack value can be set and retrieved
+     *
+     * @covers Attack::__construct
+     * @covers Attack::getRawValue
+     */
+    public function testRawAttackValueCanBeSetAndRetrieved()
+    {
+        $this->assertEquals(8, $this->attack->getRaw());
+    }
+
 }

@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * View customer controller
+ * Read customer controller
  */
-class View
+class Read
 {
 
     /**
@@ -24,10 +24,7 @@ class View
      */
     public function __invoke(User $user)
     {
-        return new JsonResponse(array(
-            'uuid' => $user->getUuid(),
-            'identity' => $user->getIdentity()
-        ));
+        return new JsonResponse($user->toArray());
     }
 
 }
