@@ -72,7 +72,8 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns a failure if the identity is not found in the repository
      *
-     * @covers Hopelessness\Authentication\Adapter\Users::authenticate()
+     * @covers Hopelessness\Authentication\Adapter\Users::authenticate
+     * @group authentication
      */
     public function testFailureIfIdentityIsNotFoundInRepository()
     {
@@ -95,7 +96,8 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns a failure if the credentials do not match
      *
-     * @covers Hopelessness\Authentication\Adapter\Users::authenticate()
+     * @covers Hopelessness\Authentication\Adapter\Users::authenticate
+     * @group authentication
      */
     public function testFailureIfCredentialsDoNotMatch()
     {
@@ -130,7 +132,8 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns success if the identity and credential are correct
      *
-     * @covers Hopelessness\Authentication\Adapter\Users::authenticate()
+     * @covers Hopelessness\Authentication\Adapter\Users::authenticate
+     * @group authentication
      */
     public function testSuccessIfIdentityAndCredentialAreCorrect()
     {

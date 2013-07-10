@@ -45,9 +45,8 @@ class AttackTest extends TestCase
 
     /**
      * Ensure the raw attack value can be set and retrieved
-     *
-     * @covers Attack::__construct
-     * @covers Attack::getRawValue
+     * @covers Hopelessness\Character\Attack::__construct
+     * @covers Hopelessness\Character\Attack::getRaw
      */
     public function testRawAttackValueCanBeSetAndRetrieved()
     {

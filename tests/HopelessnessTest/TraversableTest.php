@@ -32,4 +32,18 @@ class TraversableTest extends TestCase
         $this->assertEquals(array('1a', '2a', '3a', '4a'), $results);
     }
 
+    /**
+     * Ensure that traversables can be reduced
+     *
+     * @covers Hopelessness\Traversable::reduce
+     */
+    public function testTraversableCanBeReduced()
+    {
+        $result = Traversable::reduce(function($item, $memo) {
+            return $memo + $item;
+        }, array(1, 2, 3, 4));
+
+        $this->assertEquals(10, $result);
+    }
+
 }

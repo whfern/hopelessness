@@ -8,6 +8,7 @@
 namespace Hopelessness\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use RuntimeException;
 
 /**
  * User entity
@@ -67,13 +68,16 @@ class User
      *
      * @param Character $character
      * @return self
+     * @throws RuntimeException
      */
     public function addCharacter(Character $character)
     {
         if ($this->characters->contains($character)) {
+            throw new RuntimeException("The user already owns that character");
         }
 
         if ($character->getUser() !== $this) {
+            throw new RuntimeException("The characters user is not this user");
         }
 
         $this->characters[] = $character;
@@ -97,7 +101,8 @@ class User
      */
     public function getCharacters()
     {
-        return $this->characters;
+        return $this->characters
+            ->toArray();
     }
 
     /**
