@@ -7,7 +7,7 @@
 
 namespace Hopelessness\Controller\User;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Hopelessness\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -20,16 +20,16 @@ class Update
     /**
      * Entity manager
      *
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
      * Constructor
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
