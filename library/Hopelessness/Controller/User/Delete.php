@@ -7,7 +7,7 @@
 
 namespace Hopelessness\Controller\User;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Hopelessness\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,9 +27,9 @@ class Delete
     /**
      * Constructor
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
