@@ -7,13 +7,16 @@
 
 namespace Hopelessness;
 
+use Hopelessness\Provider\AuthenticationAdapterServiceProvider;
+use Hopelessness\Provider\AuthenticationServiceProvider;
 use Hopelessness\Provider\ControllersServiceProvider;
 use Hopelessness\Provider\DoctrineOrmServiceProvider;
-use Hopelessness\Provider\HashingAlgorithmServiceProvider;
+use Hopelessness\Provider\PasswordKeyDerivationServiceProvider;
 use Hopelessness\Provider\RepositoriesServiceProvider;
 use Hopelessness\Provider\ServiceControllerServiceProvider;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -50,10 +53,13 @@ class Application extends SilexApplication
             )
         );
 
-        $this->register(new ControllersServiceProvider())
+        $this->register(new AuthenticationServiceProvider())
+            ->register(new AuthenticationAdapterServiceProvider())
+            ->register(new ControllersServiceProvider())
             ->register(new DoctrineOrmServiceProvider())
-            ->register(new HashingAlgorithmServiceProvider())
-            ->register(new RepositoriesServiceProvider());
+            ->register(new PasswordKeyDerivationServiceProvider())
+            ->register(new RepositoriesServiceProvider())
+            ->register(new UrlGeneratorServiceProvider());
 
         $characterProvider = function($character) use ($application) {
             $entity = $application['Hopelessness\Repository\Characters']->find($character);

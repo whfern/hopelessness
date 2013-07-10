@@ -26,35 +26,36 @@ class ControllersServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application['Hopelessness\\Controller\\User\\Create'] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\Create"] = function(Application $application) {
             return new CreateUserController(
-                $application['Doctrine\\ORM\\EntityManager'],
-                $application['request']->request,
-                $application['Hopelessness\\HashAlgorithm\\Bcrypt']
+                $application["Doctrine\\ORM\\EntityManager"],
+                $application["request"]->request,
+                $application["Zend\\Crypt\\Password\\Bcrypt"],
+                $application["url_generator"]
             );
         };
 
-        $application['Hopelessness\\Controller\\User\\Delete'] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\Delete"] = function(Application $application) {
             return new DeleteUserController(
-                $application['Doctrine\\ORM\\EntityManager']
+                $application["Doctrine\\ORM\\EntityManager"]
             );
         };
 
-        $application['Hopelessness\\Controller\\User\\List'] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\List"] = function(Application $application) {
             return new ListUserController(
-                $application['Hopelessness\\Repositories\\Users']
+                $application["Hopelessness\\Repositories\\Users"]
             );
         };
 
-        $application['Hopelessness\\Controller\\User\\Read'] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\Read"] = function(Application $application) {
             return new ReadUserController();
         };
 
-        $application['Hopelessness\\Controller\\User\\Update'] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\Update"] = function(Application $application) {
             return new UpdateUserController(
-                $application['Doctrine\\ORM\\EntityManager'],
-                $application['request']->request,
-                $application['Hopelessness\\HashAlgorithm\\Bcrypt']
+                $application["Doctrine\\ORM\\EntityManager"],
+                $application["request"]->request,
+                $application["Zend\\Crypt\\Password\\Bcrypt"]
             );
         };
     }

@@ -28,7 +28,19 @@ class UserTest extends TestCase
      */
     public function setUp()
     {
+        parent::setUp();
+
         $this->user = new User();
+    }
+
+    /**
+     * Tear down the test case
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        unset($this->user);
     }
 
     /**
@@ -64,33 +76,15 @@ class UserTest extends TestCase
     /**
      * Ensure that the credential can be set and checked for the user
      *
-     * @covers Hopelessness\Entity\User::checkCredential
+     * @covers Hopelessness\Entity\User::getCredential
      * @covers Hopelessness\Entity\User::setCredential
      * @group entity
      */
     public function testCredentialCanBeSetAndChecked()
     {
-        $hashAlgorithm = $this->getMock('Hopelessness\\HashAlgorithm\\HashAlgorithm');
+        $this->user->setCredential('test');
 
-        $hashAlgorithm->expects($this->at(0))
-            ->method('hash')
-            ->with('test')
-            ->will($this->returnValue('test hasted'));
-
-        $hashAlgorithm->expects($this->at(1))
-            ->method('hash')
-            ->with('test')
-            ->will($this->returnValue('test hasted'));
-
-        $hashAlgorithm->expects($this->at(2))
-            ->method('hash')
-            ->with('asdf')
-            ->will($this->returnValue('asdf hashed'));
-
-        $this->user->setCredential('test', $hashAlgorithm);
-
-        $this->assertTrue($this->user->checkCredential('test', $hashAlgorithm));
-        $this->assertFalse($this->user->checkCredential('asdf', $hashAlgorithm));
+        $this->assertEquals('test', $this->user->getCredential());
     }
 
 }

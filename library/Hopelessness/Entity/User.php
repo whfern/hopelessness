@@ -8,8 +8,6 @@
 namespace Hopelessness\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Hopelessness\String;
-use Hopelessness\HashAlgorithm\HashAlgorithm;
 
 /**
  * User entity
@@ -83,27 +81,13 @@ class User
     }
 
     /**
-     * Check if the supplied credential matches the credential for the user
+     * Get the credential for the user
      *
-     * @param string $credential
-     * @param HashAlgorithm $hashAlgorithm
-     * @return boolean
+     * @return string
      */
-    public function checkCredential($credential, HashAlgorithm $hashAlgorithm)
+    public function getCredential()
     {
-        return String::constantTimeComparison(
-            $hashAlgorithm->hash($credential),
-            $this->credential
-        );
-    }
-
-    /**
-     * Get the credential validator
-     *
-     * @return Validator
-     */
-    public function getCredentialValidator()
-    {
+        return $this->credential;
     }
 
     /**
@@ -140,12 +124,11 @@ class User
      * Set the credential for the user
      *
      * @param string $credential
-     * @param HashAlgorithm $hashAlgorithm
      * @return self
      */
-    public function setCredential($credential, HashAlgorithm $hashAlgorithm)
+    public function setCredential($credential)
     {
-        $this->credential = $hashAlgorithm->hash($credential);
+        $this->credential = $credential;
         return $this;
     }
 

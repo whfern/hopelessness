@@ -9,10 +9,10 @@ namespace Hopelessness\Controller\User;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Hopelessness\Entity\User;
-use Hopelessness\HashAlgorithm\HashAlgorithm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Zend\Crypt\Password\PasswordInterface;
 
 /**
  * Create user controller
@@ -23,16 +23,16 @@ class Create
     /**
      * Entity manager
      *
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
-     * Hash algorithm
+     * Password service
      *
-     * @var HashAlgorithm
+     * @var PasswordInterface
      */
-    protected $hashAlgorithm;
+    protected $scrypt;
 
     /**
      * POST parameters
@@ -42,17 +42,26 @@ class Create
     protected $postParameters;
 
     /**
+     * Url generator
+     *
+     * @var UrlGenerator
+     */
+    protected $urlGenerator;
+
+    /**
      * Constructor
      *
      * @param EntityManagerInterface $entityManager
      * @param ParameterBag $postParameters
-     * @param HashAlgorithm $hashAlgorithm
+     * @param PasswordInterface $password
+     * @param UrlGenerator $urlGenerator
      */
-    public function __construct(EntityManagerInterface $entityManager, ParameterBag $postParameters, HashAlgorithm $hashAlgorithm)
+    public function __construct(EntityManagerInterface $entityManager, ParameterBag $postParameters, PasswordInterface $password, UrlGenerator $urlGenerator)
     {
         $this->entityManager  = $entityManager;
-        $this->hashAlgorithm  = $hashAlgorithm;
+        $this->password       = $password;
         $this->postParameters = $postParameters;
+        $this->urlGenerator   = $urlGenerator;
     }
 
     /**
@@ -63,7 +72,7 @@ class Create
         $user = new User();
 
         $user->setIdentity($this->postParameters->get('identity'))
-            ->setCredential($this->postParameters->get('credential'), $this->hashAlgorithm);
+            ->setCredential($this->password->create($this->postParameters->get('credential')));
 
         $this->entityManager
             ->persist($user);
@@ -71,7 +80,14 @@ class Create
         $this->entityManager
             ->flush();
 
-        return new JsonResponse($user->toArray());
+        return new JsonResponse(
+            $user->toArray(),
+            201,
+            array(
+                "Location" => $this->urlGenerator
+                    ->generate('', array('user' => $user->getId()))
+            )
+        );
     }
 
 }

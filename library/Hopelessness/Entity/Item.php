@@ -16,168 +16,138 @@ namespace Hopelessness\Entity;
 class Item
 {
 
-	/**#@+
-	 * Item type
-	 *
-	 * @var string
-	 */
-	const TYPE_WEAPON = 'weapon';
-	/**#@-*/
+    /**#@+
+     * Item type
+     *
+     * @var string
+     */
+    const TYPE_WEAPON = 'weapon';
+    /**#@-*/
 
-	/**
-	 * Character the item belongs to
-	 *
-	 * @var Character
-	 */
-	protected $character;
+    /**
+     * Character the item belongs to
+     *
+     * @var Character
+     */
+    protected $character;
 
-	/**
-	 * Set the equipped status of the item
-	 *
-	 * @Column(type="boolean")
-	 * @var boolean
-	 */
-	protected $equipped = false;
+    /**
+     * Name for the character
+     *
+     * @Column(type="string", length=60, nullable=false, unique=true)
+     * @var string
+     */
+    protected $name;
 
-	/**
-	 * Name for the character
-	 *
-	 * @Column(type="string", length=60, nullable=false, unique=true)
-	 * @var string
-	 */
-	protected $name;
+    /**
+     * Observers
+     *
+     * @var ItemObserver[]
+     */
+    protected $observers = array();
 
-	/**
-	 * Observers
-	 *
-	 * @var ItemObserver[]
-	 */
-	protected $observers = array();
+    /**
+     * Type of the item
+     *
+     * @Column(type="string", length=10, nullable=false)
+     * @var string
+     */
+    protected $type;
 
-	/**
-	 * Type of the item
-	 *
-	 * @Column(type="string", length=10, nullable=false)
-	 * @var string
-	 */
-	protected $type;
-
-	/**
-	 * Attach an observer
-	 *
-	 * @param ItemObserver $itemObserver
-	 * @return self
-	 */
-	public function attachObserver(ItemObserver $itemObserver)
-	{
-		$this->observers[] = $itemObserver;
-		return $this;
-	}
-
-	/**
-	 * Detach an observer
-	 *
-	 * @param ItemObserver $itemObserver
-	 * @return self
-	 */
-	public function detachObserver(ItemObserver $itemObserver)
-	{
-		$key = array_search($itemObserver, $this->observers, true);
-
-		if ($key !== false) {
-			unset($this->observers[$key]);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Get the character the item belongs to
-	 *
-	 * @return Character
-	 */
-	public function getCharacter()
-	{
-	    return $this->character;
+    /**
+     * Attach an observer
+     *
+     * @param ItemObserver $itemObserver
+     * @return self
+     */
+    public function attachObserver(ItemObserver $itemObserver)
+    {
+        $this->observers[] = $itemObserver;
+        return $this;
     }
 
-	/**
-	 * Get the equipped status of the item
-	 *
-	 * @return boolean
-	 */
-	public function getEquipped()
-	{
-		return $this->equipped;
-	}
+    /**
+     * Detach an observer
+     *
+     * @param ItemObserver $itemObserver
+     * @return self
+     */
+    public function detachObserver(ItemObserver $itemObserver)
+    {
+        $key = array_search($itemObserver, $this->observers, true);
 
-	/**
-	 * Get the name of the item
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+        if ($key !== false) {
+            unset($this->observers[$key]);
+        }
 
-	/**
-	 * Get the type of the item
-	 *
-	 * @return string
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
-
-	/**
-	 * Set the character the item belongs to
-	 *
-	 * @param Character $character
-	 * @return self
-	 */
-	public function setCharacter(Character $character)
-	{
-	    $this->character = $character;
-	    $character->addItem($this);
-	    return $this;
+        return $this;
     }
 
-	/**
-	 * Set the equipped status of the item
-	 *
-	 * @param boolean $equipped
-	 * @return self
-	 */
-	public function setEquipped($equipped)
-	{
-		$this->equipped = $equipped;
-		return $this;
-	}
+    /**
+     * Get the character the item belongs to
+     *
+     * @return Character
+     */
+    public function getCharacter()
+    {
+        return $this->character;
+    }
 
-	/**
-	 * Set the name of the item
-	 *
-	 * @param string $name
-	 * @return self
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
+    /**
+     * Get the name of the item
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Set the type of the item
-	 *
-	 * @param string $type
-	 * @return self
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
-		return $this;
-	}
+    /**
+     * Get the type of the item
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the character the item belongs to
+     *
+     * @param Character $character
+     * @return self
+     */
+    public function setCharacter(Character $character)
+    {
+        $this->character = $character;
+        $character->addItem($this);
+        return $this;
+    }
+
+    /**
+     * Set the name of the item
+     *
+     * @param string $name
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Set the type of the item
+     *
+     * @param string $type
+     * @return self
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
 
 }

@@ -7,14 +7,14 @@
 
 namespace Hopelessness\Provider;
 
-use Hopelessness\HashAlgorithm\Bcrypt;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Zend\Crypt\Password\Bcrypt;
 
 /**
- * Hashing algorithm service provider
+ * Password key derivation service provider
  */
-class HashingAlgorithmServiceProvider implements ServiceProviderInterface
+class PasswordKeyDerivationServiceProvider implements ServiceProviderInterface
 {
 
     /**
@@ -22,9 +22,9 @@ class HashingAlgorithmServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application['Hopelessness\\HashAlgorithm\\Bcrypt'] = function(Application $application) {
+        $application['Zend\\Crypt\\Password\\Bcrypt'] = $application->share(function(Application $application) {
             return new Bcrypt();
-        };
+        });
     }
 
     /**

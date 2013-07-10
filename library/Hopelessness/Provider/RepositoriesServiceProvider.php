@@ -21,6 +21,10 @@ class RepositoriesServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
+        $application['Hopelessness\\Repository\\Characters'] = function(Application $application) {
+            return $application['Doctrine\\ORM\\EntityManager']->getRepository('Hopelessness\\Entity\\Character');
+        };
+
         $application['Hopelessness\\Repository\\Users'] = function(Application $application) {
             return $application['Doctrine\\ORM\\EntityManager']->getRepository('Hopelessness\\Entity\\User');
         };

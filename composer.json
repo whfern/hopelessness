@@ -3,6 +3,8 @@
     "require": {
         "doctrine/orm": "~2",
         "silex/silex": "~1",
+        "zendframework/zend-authentication": "~2",
+        "zendframework/zend-crypt": "~2",
         "zendframework/zend-loader": "~2"
     },
     "require-dev": {

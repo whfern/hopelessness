@@ -34,6 +34,16 @@ class AttackTest extends TestCase
     }
 
     /**
+     * Tear down the test case
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        unset($this->attack);
+    }
+
+    /**
      * Ensure the raw attack value can be set and retrieved
      *
      * @covers Attack::__construct
