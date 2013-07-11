@@ -28,6 +28,7 @@ class ControllersServiceProvider implements ServiceProviderInterface
     {
         $application["Hopelessness\\Controller\\User\\Create"] = function(Application $application) {
             return new CreateUserController(
+                $application["Zend\\Authentication\\AuthenticationService"],
                 $application["Doctrine\\ORM\\EntityManager"],
                 $application["request"]->request,
                 $application["Zend\\Crypt\\Password\\Bcrypt"],
@@ -37,22 +38,27 @@ class ControllersServiceProvider implements ServiceProviderInterface
 
         $application["Hopelessness\\Controller\\User\\Delete"] = function(Application $application) {
             return new DeleteUserController(
+                $application["Zend\\Authentication\\AuthenticationService"],
                 $application["Doctrine\\ORM\\EntityManager"]
             );
         };
 
-        $application["Hopelessness\\Controller\\User\\List"] = function(Application $application) {
+        $application["Hopelessness\\Controller\\User\\Listing"] = function(Application $application) {
             return new ListUserController(
-                $application["Hopelessness\\Repositories\\Users"]
+                $application["Zend\\Authentication\\AuthenticationService"],
+                $application["Hopelessness\\Repository\\Users"]
             );
         };
 
         $application["Hopelessness\\Controller\\User\\Read"] = function(Application $application) {
-            return new ReadUserController();
+            return new ReadUserController(
+                $application["Zend\\Authentication\\AuthenticationService"]
+            );
         };
 
         $application["Hopelessness\\Controller\\User\\Update"] = function(Application $application) {
             return new UpdateUserController(
+                $application["Zend\\Authentication\\AuthenticationService"],
                 $application["Doctrine\\ORM\\EntityManager"],
                 $application["request"]->request,
                 $application["Zend\\Crypt\\Password\\Bcrypt"]

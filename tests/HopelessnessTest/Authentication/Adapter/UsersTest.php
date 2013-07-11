@@ -49,7 +49,7 @@ class UsersTest extends TestCase
 
         $this->usersRepository = $this->getMockBuilder("Hopelessness\\Repository\\Users")
             ->disableOriginalConstructor()
-            ->setMethods(array('findByUsername'))
+            ->setMethods(array("findByIdentity"))
             ->getMock();
 
         $this->password = $this->getMock("Zend\\Crypt\\Password\\PasswordInterface");
@@ -72,6 +72,7 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns a failure if the identity is not found in the repository
      *
+     * @covers Hopelessness\Authentication\Adapter\Users::__construct
      * @covers Hopelessness\Authentication\Adapter\Users::authenticate
      * @group authentication
      */
@@ -79,7 +80,7 @@ class UsersTest extends TestCase
     {
         $this->usersRepository
             ->expects($this->once())
-            ->method("findByUsername")
+            ->method("findByIdentity")
             ->with("invalid")
             ->will($this->returnValue(null));
 
@@ -96,6 +97,7 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns a failure if the credentials do not match
      *
+     * @covers Hopelessness\Authentication\Adapter\Users::__construct
      * @covers Hopelessness\Authentication\Adapter\Users::authenticate
      * @group authentication
      */
@@ -108,7 +110,7 @@ class UsersTest extends TestCase
 
         $this->usersRepository
             ->expects($this->once())
-            ->method("findByUsername")
+            ->method("findByIdentity")
             ->with("identity")
             ->will($this->returnValue($user));
 
@@ -132,6 +134,7 @@ class UsersTest extends TestCase
     /**
      * Ensure the adapter returns success if the identity and credential are correct
      *
+     * @covers Hopelessness\Authentication\Adapter\Users::__construct
      * @covers Hopelessness\Authentication\Adapter\Users::authenticate
      * @group authentication
      */
@@ -143,13 +146,9 @@ class UsersTest extends TestCase
             ->method("getCredential")
             ->will($this->returnValue("credential"));
 
-        $user->expects($this->once())
-            ->method("getUuid")
-            ->will($this->returnValue(1));
-
         $this->usersRepository
             ->expects($this->once())
-            ->method("findByUsername")
+            ->method("findByIdentity")
             ->with("identity")
             ->will($this->returnValue($user));
 
@@ -169,8 +168,8 @@ class UsersTest extends TestCase
             $result->getCode()
         );
 
-        $this->assertEquals(
-            1,
+        $this->assertSame(
+            $user,
             $result->getIdentity()
         );
     }

@@ -56,7 +56,7 @@ class AuthenticationAdapterServiceProviderTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $application["Hopelessness\\Crypt\\Scrypt"] = $this->getMockBuilder("Zend\\Crypt\\Password\\PasswordInterface")
+        $application["Zend\\Crypt\\Password\\Bcrypt"] = $this->getMockBuilder("Zend\\Crypt\\Password\\PasswordInterface")
             ->getMock();
 
         $this->serviceProvider->register($application);

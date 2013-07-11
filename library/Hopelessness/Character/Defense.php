@@ -26,6 +26,26 @@ class Defense implements ItemObserver, StatusEffectObserver
 	protected $raw;
 
 	/**
+	 * Constructor
+	 *
+	 * @param integer $raw
+	 */
+	public function __construct($raw)
+	{
+	    $this->raw = $raw;
+    }
+
+    /**
+     * Get the raw defense value
+     *
+     * @return integer
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
+	/**
 	 * Update the attack attribute of changes to item
 	 *
 	 * @param Item $item

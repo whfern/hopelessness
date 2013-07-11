@@ -7,21 +7,21 @@
 
 namespace Hopelessness\Character;
 
-use Hopelessness\Character\Attack;
+use Hopelessness\Character\Defense;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * Unit tests for the attack class
+ * Unit tests for the defense class
  */
-class AttackTest extends TestCase
+class DefenseTest extends TestCase
 {
 
     /**
-     * Attack attribute
+     * Defense attribute
      *
-     * @var Attack
+     * @var Defense
      */
-    protected $attack;
+    protected $defense;
 
     /**
      * Setup the test case
@@ -30,7 +30,7 @@ class AttackTest extends TestCase
     {
         parent::setUp();
 
-        $this->attack = new Attack(8);
+        $this->defense = new Defense(8);
     }
 
     /**
@@ -40,18 +40,18 @@ class AttackTest extends TestCase
     {
         parent::tearDown();
 
-        unset($this->attack);
+        unset($this->defense);
     }
 
     /**
      * Ensure the raw value can be set and retrieved
      *
-     * @covers Hopelessness\Character\Attack::__construct
-     * @covers Hopelessness\Character\Attack::getRaw
+     * @covers Hopelessness\Character\Defense::__construct
+     * @covers Hopelessness\Character\Defense::getRaw
      */
     public function testRawValueCanBeSetAndRetrieved()
     {
-        $this->assertEquals(8, $this->attack->getRaw());
+        $this->assertEquals(8, $this->defense->getRaw());
     }
 
 }

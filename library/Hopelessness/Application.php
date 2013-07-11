@@ -8,6 +8,7 @@
 namespace Hopelessness;
 
 use Hopelessness\Provider\AuthenticationAdapterServiceProvider;
+use Hopelessness\Provider\AuthenticationMiddlewareServiceProvider;
 use Hopelessness\Provider\AuthenticationServiceProvider;
 use Hopelessness\Provider\ControllersServiceProvider;
 use Hopelessness\Provider\DoctrineOrmServiceProvider;
@@ -37,7 +38,7 @@ class Application extends SilexApplication
 
         $application = $this;
 
-        $this['debug'] = true;
+        $this["debug"] = true;
 
         Request::enableHttpMethodParameterOverride();
 
@@ -46,14 +47,15 @@ class Application extends SilexApplication
         $this->register(
             new DoctrineServiceProvider(),
             array(
-                'db.options' => array(
-                    'driver' => 'pdo_sqlite',
-                    'path'   => '../database/application.db',
+                "db.options" => array(
+                    "driver" => "pdo_sqlite",
+                    "path"   => "../database/application.db",
                 )
             )
         );
 
-        $this->register(new AuthenticationServiceProvider())
+        $this->register(new AuthenticationMiddlewareServiceProvider())
+            ->register(new AuthenticationServiceProvider())
             ->register(new AuthenticationAdapterServiceProvider())
             ->register(new ControllersServiceProvider())
             ->register(new DoctrineOrmServiceProvider())
@@ -62,36 +64,40 @@ class Application extends SilexApplication
             ->register(new UrlGeneratorServiceProvider());
 
         $characterProvider = function($character) use ($application) {
-            $entity = $application['Hopelessness\Repository\Characters']->find($character);
+            $entity = $application["Hopelessness\\Repository\\Characters"]->find($character);
 
             if (!$entity) {
-                throw new HttpException(404, 'Invalid character UUID');
+                throw new HttpException(404, "Invalid character UUID");
             }
 
             return $entity;
         };
 
         $userProvider = function($user) use ($application) {
-            $entity = $application['Hopelessness\Repository\Users']->find($user);
+            $entity = $application["Hopelessness\Repository\Users"]->find($user);
 
             if (!$entity) {
-                throw new HttpException(404, 'Invalid user UUID');
+                throw new HttpException(404, "Invalid user UUID");
             }
 
             return $entity;
         };
 
-        $this->post('/users', 'Hopelessness\Controller\User\Create');
-        $this->delete('/users/{user}', 'Hopelessness\Controller\User\Delete')->convert('user', $userProvider);
-        $this->get('/users', 'Hopelessness\Controller\User\List');
-        $this->get('/users/{user}', 'Hopelessness\Controller\User\Read')->convert('user', $userProvider);
-        $this->match('/users/{user}', 'Hopelessness\Controller\User\Update')->method('PATCH')->convert('user', $userProvider);
+        $this->post("/users", "Hopelessness\\Controller\\User\\Create");
+        $this->delete("/users/{user}", "Hopelessness\\Controller\\User\\Delete")->convert("user", $userProvider);
+        $this->get("/users", "Hopelessness\\Controller\\User\\Listing");
+        $this->get("/users/{user}", "Hopelessness\\Controller\\User\\Read")->convert("user", $userProvider);
+        $this->match("/users/{user}", "Hopelessness\\Controller\\User\\Update")->method("PATCH")->convert("user", $userProvider);
 
-        $this->post('/characters', 'Hopelessness\Controller\Character\Create');
-        $this->delete('/characters/{character}', 'Hopelessness\Controller\Character\Delete')->convert('character', $characterProvider);
-        $this->get('/characters', 'Hopelessness\Controller\Character\List');
-        $this->get('/characters/{character}', 'Hopelessness\Controller\Character\Read')->convert('character', $characterProvider);
-        $this->match('/characters/{character}', 'Hopelessness\Controller\Character\Update')->method('PATCH')->convert('character', $characterProvider);
+        $this->post("/characters", "Hopelessness\\Controller\\Character\\Create");
+        $this->delete("/characters/{character}", "Hopelessness\\Controller\\Character\\Delete")->convert("character", $characterProvider);
+        $this->get("/characters", "Hopelessness\\Controller\\Character\\Listing");
+        $this->get("/characters/{character}", "Hopelessness\\Controller\\Character\\Read")->convert("character", $characterProvider);
+        $this->match("/characters/{character}", "Hopelessness\\Controller\\Character\\Update")->method("PATCH")->convert("character", $characterProvider);
+
+        $application = $this;
+
+        $this->before($application["Hopelessness\\Middleware\\Authentication"]);
     }
 
  }

@@ -7,15 +7,14 @@
 
 namespace Hopelessness\Provider;
 
+use Hopelessness\Middleware\Authentication;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Zend\Authentication\AuthenticationService;
-use Zend\Authentication\Storage\NonPersistent;
 
 /**
- * Authentication service provider
+ * Authentication middleware service provider
  */
-class AuthenticationServiceProvider implements ServiceProviderInterface
+class AuthenticationMiddlewareServiceProvider implements ServiceProviderInterface
 {
 
     /**
@@ -23,12 +22,12 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $application)
     {
-        $application["Zend\\Authentication\\AuthenticationService"] = $application->share(function(Application $application) {
-            return new AuthenticationService(
-                new NonPersistent(),
+        $application["Hopelessness\\Middleware\\Authentication"] = function(Application $application) {
+            return new Authentication(
+                $application["Zend\\Authentication\\AuthenticationService"],
                 $application["Hopelessness\\Authentication\\Adapter\\Users"]
             );
-        });
+        };
     }
 
     /**

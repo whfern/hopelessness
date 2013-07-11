@@ -7,6 +7,8 @@
 
 namespace Hopelessness\Controller;
 
+use ControllerInterface;
+
 /**
  * Homepage controller
  */
@@ -14,7 +16,7 @@ class Homepage
 {
 
     /**
-     * Run the controller
+     * {@inheritDoc}
      */
     public function __invoke()
     {

@@ -51,7 +51,7 @@ class Users extends AbstractAdapter
     public function authenticate()
     {
         $user = $this->users
-            ->findByUsername($this->getIdentity());
+            ->findByIdentity($this->getIdentity());
 
         if (!$user) {
             return new Result(
@@ -71,7 +71,7 @@ class Users extends AbstractAdapter
 
         return new Result(
             Result::SUCCESS,
-            $user->getUuid()
+            $user
         );
     }
 

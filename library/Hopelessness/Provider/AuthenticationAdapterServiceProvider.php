@@ -25,7 +25,7 @@ class AuthenticationAdapterServiceProvider implements ServiceProviderInterface
         $application["Hopelessness\\Authentication\\Adapter\\Users"] = function(Application $application) {
             return new Users(
                 $application["Hopelessness\\Repository\\Users"],
-                $application["Hopelessness\\Crypt\\Scrypt"]
+                $application["Zend\\Crypt\\Password\\Bcrypt"]
             );
         };
     }
