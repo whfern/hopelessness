@@ -32,7 +32,7 @@ class Create
      *
      * @var PasswordInterface
      */
-    protected $scrypt;
+    protected $password;
 
     /**
      * POST parameters

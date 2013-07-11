@@ -9,7 +9,6 @@ namespace Hopelessness\Controller\User;
 
 use Hopelessness\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Read customer controller

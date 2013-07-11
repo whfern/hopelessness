@@ -7,7 +7,6 @@
 
 namespace Hopelessness\Controller;
 
-use Hopelessness\Authentication\Adapter\UsersRepositoryAdapter;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\AuthenticationService;
 use Symfony\Component\HttpFoundation\ParameterBag;

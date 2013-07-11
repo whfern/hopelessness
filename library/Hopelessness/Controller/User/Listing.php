@@ -7,8 +7,6 @@
 
 namespace Hopelessness\Controller\User;
 
-use Closure;
-use Hopelessness\Entity\User;
 use Hopelessness\Repository\Users;
 use Hopelessness\Traversable;
 use Symfony\Component\HttpFoundation\JsonResponse;
