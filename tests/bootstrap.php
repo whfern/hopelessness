@@ -2,8 +2,8 @@
 use Hopelessness\Application;
 use Zend\Loader\StandardAutoloader;
 
-require_once '../vendor/autoload.php';
+require_once './vendor/autoload.php';
 
 $autoloader = new StandardAutoloader();
-$autoloader->registerNamespace('Hopelessness', '../library/Hopelessness')
+$autoloader->registerNamespace('Hopelessness', './library/Hopelessness')
     ->register();
